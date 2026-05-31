@@ -1,0 +1,18 @@
+{
+  "name": "Nazik's Timer+",
+  "short_name": "Timer+",
+  "description": "Длинные таймеры для iPhone PWA.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#101319",
+  "theme_color": "#101319",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
