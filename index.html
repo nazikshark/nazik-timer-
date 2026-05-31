@@ -36,6 +36,13 @@
         <p class="finish-at" id="finishAt">Нажми +, чтобы начать</p>
         <div class="timer-actions">
           <button class="primary-action" id="pauseToggle" type="button" disabled>Пауза</button>
+          <button class="restart-action" id="restartTimer" type="button" hidden>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 12a8 8 0 1 0 2.34-5.66"></path>
+              <path d="M4 4v6h6"></path>
+            </svg>
+            <span>начать сначала</span>
+          </button>
           <button class="danger-action" id="deleteActive" type="button" aria-label="Удалить активный таймер" disabled>
             <span class="trash-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24">

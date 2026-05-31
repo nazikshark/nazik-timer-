@@ -157,6 +157,7 @@ button {
 }
 
 .primary-action,
+.restart-action,
 .create-button,
 .circle-add-button,
 .empty-add-button {
@@ -168,6 +169,26 @@ button {
   color: #1a1408;
   font-weight: 850;
   box-shadow: 0 12px 28px rgba(255, 207, 92, 0.24);
+}
+
+.restart-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.restart-action svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+[hidden] {
+  display: none !important;
 }
 
 .circle-add-button {
@@ -246,6 +267,7 @@ button {
 }
 
 .primary-action:disabled,
+.restart-action:disabled,
 .create-button:disabled {
   opacity: 0.42;
   box-shadow: none;
@@ -253,7 +275,7 @@ button {
 
 .bottom-dock {
   width: min(calc(100% - 28px), 480px);
-  height: 78px;
+  height: calc(78px + env(safe-area-inset-bottom));
   padding: 12px 18px calc(12px + env(safe-area-inset-bottom));
   position: fixed;
   left: 50%;

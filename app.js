@@ -27,6 +27,7 @@ const el = {
   remainingTime: document.querySelector("#remainingTime"),
   finishAt: document.querySelector("#finishAt"),
   pauseToggle: document.querySelector("#pauseToggle"),
+  restartTimer: document.querySelector("#restartTimer"),
   deleteActive: document.querySelector("#deleteActive"),
   openList: document.querySelector("#openList"),
   closeList: document.querySelector("#closeList"),
@@ -190,7 +191,9 @@ function renderMain() {
     el.remainingTime.innerHTML = '<button class="circle-add-button" type="button">+ добавить таймер</button>';
     el.finishAt.textContent = "Нажми +, чтобы начать";
     el.pauseToggle.disabled = true;
+    el.pauseToggle.hidden = false;
     el.pauseToggle.textContent = "Пауза";
+    el.restartTimer.hidden = true;
     el.deleteActive.disabled = true;
     el.deleteActive.hidden = true;
     el.deleteActive.classList.remove("is-armed");
@@ -216,8 +219,10 @@ function renderMain() {
   el.timerTitle.textContent = timer.name;
   el.remainingTime.innerHTML = visibleParts.map((part) => `<span>${escapeHtml(part)}</span>`).join("");
   el.finishAt.textContent = `Финиш: ${formatDateTime(endDate)}`;
+  el.pauseToggle.hidden = remaining <= 0;
   el.pauseToggle.disabled = remaining <= 0;
   el.pauseToggle.textContent = timer.running ? "Остановить" : "Продолжить";
+  el.restartTimer.hidden = remaining > 0;
   el.deleteActive.disabled = false;
   el.deleteActive.hidden = false;
   el.deleteActive.classList.remove("is-hidden");
@@ -484,6 +489,21 @@ function togglePause() {
   render();
 }
 
+function restartActiveTimer() {
+  const timer = getActiveTimer();
+  if (!timer) return;
+
+  const now = Date.now();
+  timer.endAt = addDuration(new Date(now), timer.duration).getTime();
+  timer.totalMs = Math.max(1000, timer.endAt - now);
+  timer.remainingMs = timer.totalMs;
+  timer.running = true;
+  state.activeDeleteArmed = false;
+  state.notified.delete(timer.id);
+  saveTimers();
+  render();
+}
+
 function deleteActiveTimer() {
   const timer = getActiveTimer();
   if (!timer) return;
@@ -601,6 +621,7 @@ el.openCreate.addEventListener("click", () => openSheet(el.createModal));
 el.closeCreate.addEventListener("click", closeSheets);
 el.scrim.addEventListener("click", closeSheets);
 el.pauseToggle.addEventListener("click", togglePause);
+el.restartTimer.addEventListener("click", restartActiveTimer);
 el.deleteActive.addEventListener("click", deleteActiveTimer);
 el.createTimer.addEventListener("click", createTimer);
 

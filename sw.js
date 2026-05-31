@@ -1,4 +1,4 @@
-const CACHE_NAME = "nazik-timer-plus-v6";
+const CACHE_NAME = "nazik-timer-plus-v7";
 const ASSETS = [
   ".",
   "index.html",
