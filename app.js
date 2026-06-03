@@ -67,7 +67,7 @@ async function requestPushPermission() {
     if (token) {
       console.log("Токен устройства получен:", token);
       alert("Уведомления успешно включены!");
-      document.querySelector("#enableNotifications").style.display = "none";
+      // document.querySelector("#enableNotifications").style.display = "none";
     }
   } catch (err) {
     console.error("Ошибка при получении токена:", err);
@@ -666,5 +666,4 @@ render();
 setInterval(renderMain, 1000);
 if (enableBtn) {
   enableBtn.addEventListener("click", requestPushPermission);
-  enableBtn.remove()
 }
