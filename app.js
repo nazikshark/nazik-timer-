@@ -60,18 +60,22 @@ const el = {
 };
 async function requestPushPermission() {
   try {
+    // 1. Ждем готовности нашего уже запущенного sw.js
+    const registration = await navigator.serviceWorker.ready;
+
+    // 2. Явно передаем этот сервис-воркер в Firebase
     const token = await getToken(messaging, { 
-      vapidKey: VAPID_KEY 
+      vapidKey: VAPID_KEY,
+      serviceWorkerRegistration: registration 
     });
 
     if (token) {
       console.log("Токен устройства получен:", token);
       alert("Уведомления успешно включены!");
-      // document.querySelector("#enableNotifications").style.display = "none";
     }
   } catch (err) {
     console.error("Ошибка при получении токена:", err);
-    alert("Ошибка: проверь, разрешил ли ты уведомления в настройках Safari");
+    alert("Ошибка: " + err.message);
   }
 }
 
