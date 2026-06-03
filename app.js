@@ -67,7 +67,6 @@ async function requestPushPermission() {
     if (token) {
       console.log("Токен устройства получен:", token);
       alert("Уведомления успешно включены!");
-      // Скрываем кнопку, так как уведомления уже работают
       document.querySelector("#enableNotifications").style.display = "none";
     }
   } catch (err) {
@@ -75,7 +74,6 @@ async function requestPushPermission() {
     alert("Ошибка: проверь, разрешил ли ты уведомления в настройках Safari");
   }
 }
-enableBtn.addEventListener("click", requestPushPermission);
 
 function loadTimers() {
   try {
@@ -666,3 +664,7 @@ registerServiceWorker();
 updatePreview();
 render();
 setInterval(renderMain, 1000);
+if (enableBtn) {
+  enableBtn.addEventListener("click", requestPushPermission);
+  enableBtn.remove()
+}
