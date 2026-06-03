@@ -1,6 +1,23 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAT0rPov6Bb6NddbVL7UgIfYgS9CggP5Sk",
+  authDomain: "nazik-timer.firebaseapp.com",
+  projectId: "nazik-timer",
+  storageBucket: "nazik-timer.firebasestorage.app",
+  messagingSenderId: "314207092962",
+  appId: "1:314207092962:web:98f1840e1657f69e241ebb",
+  measurementId: "G-26XZZH2TDF"
+};
+
+const app = initializeApp(firebaseConfig);
+const messaging = getMessaging(app);
+const VAPID_KEY = "BH6lkiuiC59zmXHggTkcYudDCmHfeYh0dsuy6dbUAZ-a6fLXoxHWh2p4zdcvB1KFlZzFpvqT8g2BT1X_hny_ErE";
 const STORAGE_KEY = "nazik-timer-plus:timers";
 const ACTIVE_KEY = "nazik-timer-plus:active";
 const RING_LENGTH = 666;
+const enableBtn = document.querySelector("#enableNotifications");
 
 const units = [
   ["years", 0, 99],
@@ -41,6 +58,24 @@ const el = {
   previewFinish: document.querySelector("#previewFinish"),
   scrim: document.querySelector("#scrim"),
 };
+async function requestPushPermission() {
+  try {
+    const token = await getToken(messaging, { 
+      vapidKey: VAPID_KEY 
+    });
+
+    if (token) {
+      console.log("Токен устройства получен:", token);
+      alert("Уведомления успешно включены!");
+      // Скрываем кнопку, так как уведомления уже работают
+      document.querySelector("#enableNotifications").style.display = "none";
+    }
+  } catch (err) {
+    console.error("Ошибка при получении токена:", err);
+    alert("Ошибка: проверь, разрешил ли ты уведомления в настройках Safari");
+  }
+}
+enableBtn.addEventListener("click", requestPushPermission);
 
 function loadTimers() {
   try {

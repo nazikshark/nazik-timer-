@@ -29,11 +29,18 @@ self.addEventListener("fetch", (event) => {
   );
 });
 
-self.addEventListener("message", (event) => {
-  if (event.data?.type !== "timer-finished") return;
-  self.registration.showNotification(event.data.title, {
-    body: event.data.body,
-    icon: "icon.svg",
-    badge: "icon.svg",
-  });
+self.addEventListener("push", (event) => {
+  if (!(self.Notification && self.Notification.permission === "granted")) return;
+
+  const data = event.data?.json() ?? {};
+  const title = data.title || "Таймер завершен";
+  const body = data.body || "Время вышло!";
+
+  event.waitUntil(
+    self.registration.showNotification(title, {
+      body: body,
+      icon: "icon.svg",
+      badge: "icon.svg",
+    })
+  );
 });
